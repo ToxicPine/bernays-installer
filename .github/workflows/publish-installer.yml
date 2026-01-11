@@ -1,0 +1,33 @@
+name: Publish Installer
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v21
+
+      - name: Build Installer
+        run: nix build .#default
+
+      - name: Prepare Artifact
+        run: cp result/bin/installer.sh ./installer.sh
+
+      - name: Upload to Release
+        uses: Shopify/upload-to-release@v2
+        with:
+          name: installer.sh
+          path: installer.sh
+          content-type: application/x-sh
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
