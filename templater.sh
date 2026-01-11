@@ -2,7 +2,7 @@
 
 set -e
 
-TEMPLATE_REPO="https://github.com/ToxicPine/outreach-control.git"
+TEMPLATE_REPO="https://github.com/ToxicPine/bernays.git"
 MAX_SEARCH_DEPTH=5
 
 RED='\033[0;31m'
@@ -41,11 +41,11 @@ do_enter() {
     PROJECT_ROOT=$(find_flake_root)
     
     if [ -z "$PROJECT_ROOT" ]; then
-        error "Project Not Found. You Can Create A New Project With \`outreach-control create PROJECT_NAME\`"
+        error "Project Not Found. You Can Create A New Project With \`bernays create PROJECT_NAME\`"
     fi
 
     FLAKE_FILE="$PROJECT_ROOT/flake.nix"
-    if ! grep -q "\[OUTREACH-CONTROL\]" "$FLAKE_FILE"; then
+    if ! grep -q "\[bernays\]" "$FLAKE_FILE"; then
         error "Invalid Project, Have You Changed The flake.nix Description?"
     fi
     
@@ -111,6 +111,9 @@ case "$COMMAND" in
         do_create "$ARG"
         ;;
     "")
+        do_enter
+        ;;
+    "develop")
         do_enter
         ;;
     *)

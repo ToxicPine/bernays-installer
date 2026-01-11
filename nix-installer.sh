@@ -32,7 +32,7 @@ check_existing_nix() {
 }
 
 configure_wsl_systemd() {
-    printf "Outreach Control Needs Systemd To Work Properly. Configure It Now? [Y/n] "
+    printf "Bernays Needs Systemd To Work Properly. Configure It Now? [Y/n] "
     read -r response
     case "$response" in
         [nN][oO]|[nN])
@@ -89,7 +89,7 @@ get_install_opts() {
 
 run_installer() {
     args="$1"
-    info "Installing Nix (Needed For Outreach Control)..."
+    info "Installing Nix (Needed For Bernays)..."
     
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
       sh -s -- install "$args"
@@ -103,7 +103,7 @@ if ! check_existing_nix; then
 fi
 
 # ==============================================================================
-# Outreach Control Installer
+# Bernays Installer
 # ==============================================================================
 
 is_in_path() {
@@ -169,17 +169,17 @@ pick_install_dir() {
 
 mktemp_file() {
   if command -v mktemp >/dev/null 2>&1; then
-    mktemp "${TMPDIR:-/tmp}/outreach-control.XXXXXX"
+    mktemp "${TMPDIR:-/tmp}/bernays.XXXXXX"
     return $?
   fi
-  echo "${TMPDIR:-/tmp}/outreach-control.$$"
+  echo "${TMPDIR:-/tmp}/bernays.$$"
 }
 
 install_outreach_control() {
-  info "Installing Outreach Control..."
+  info "Installing Bernays..."
 
-  install_dir="$(pick_install_dir)" || error "Could Not Find A Writable Install Directory For Outreach Control."
-  target="$install_dir/outreachctl"
+  install_dir="$(pick_install_dir)" || error "Could Not Find A Writable Install Directory For Bernays."
+  target="$install_dir/bernays"
 
   tmp="$(mktemp_file)" || error "Could Not Create Temporary File."
   umask 022
@@ -191,12 +191,12 @@ install_outreach_control() {
   if mv "$tmp" "$target" 2>/dev/null; then
     :
   else
-    cat "$tmp" > "$target" || error "Could Not Install Outreach Control To $target"
+    cat "$tmp" > "$target" || error "Could Not Install Bernays To $target"
     rm -f "$tmp" || true
   fi
 
   chmod +x "$target" || error "Could Not Mark $target As Executable."
-  success "Installed Outreach Control!"
+  success "Installed Bernays!"
 
   if ! is_in_path "$install_dir"; then
     warn "Install Directory Is Not On PATH: $install_dir"
