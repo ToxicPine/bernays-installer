@@ -118,7 +118,7 @@ case "$COMMAND" in
         ;;
     *)
         echo "Usage:"
-        echo "  $0              (Enter Bernays Shell)"
+        echo "  $0              (Enter Bernays Development Shell)"
         echo "  $0 create <dir> (Create New Bernays Project)"
         echo "  $0 develop      (Enter Bernays Development Shell)"
         exit 1
