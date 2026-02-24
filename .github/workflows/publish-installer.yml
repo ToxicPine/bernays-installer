@@ -25,7 +25,7 @@ jobs:
         run: cp result/bin/installer.sh ./installer.sh
 
       - name: Upload to Release
-        uses: Shopify/upload-to-release@v2
+        uses: Shopify/upload-to-release@v1
         with:
           name: installer.sh
           path: installer.sh
